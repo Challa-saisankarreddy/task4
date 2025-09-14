@@ -1,0 +1,970 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechCraft Solutions - Digital Innovation Hub</title>
+    <meta name="description" content="Cutting-edge web development solutions with modern design and exceptional performance">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="data:font/woff2;base64,d09GMgABAAAAAAIAAA==" as="font" type="font/woff2" crossorigin>
+    
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #f59e0b;
+            --bg-dark: #0f172a;
+            --bg-light: #f8fafc;
+            --text-light: #e2e8f0;
+            --text-dark: #1e293b;
+            --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --gradient-accent: linear-gradient(135deg, var(--accent-color), #f97316);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-light);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--text-light);
+            max-width: 800px;
+            padding: 0 2rem;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideInUp 1s ease-out 0.4s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Floating Elements Animation */
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) { width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 60px; height: 60px; top: 60%; right: 10%; animation-delay: 2s; }
+        .shape:nth-child(3) { width: 100px; height: 100px; bottom: 20%; left: 20%; animation-delay: 4s; }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--bg-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.125rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Performance Dashboard */
+        .dashboard {
+            padding: 6rem 2rem;
+            background: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .metric-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Interactive Demo Section */
+        .demo {
+            padding: 6rem 2rem;
+            background: #f1f5f9;
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .interactive-demo {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            margin-top: 3rem;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .demo-btn.active,
+        .demo-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .demo-output {
+            min-height: 200px;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            color: var(--text-dark);
+            border: 2px dashed #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.6;
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .demo-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .demo-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metric-number {
+                font-size: 2rem;
+            }
+
+            .interactive-demo {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Performance optimizations */
+        .lazy-load {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .lazy-load.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .feature-card {
+                border: 2px solid var(--text-dark);
+            }
+            
+            .btn-secondary {
+                border-width: 3px;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">TechCraft</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#performance">Performance</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Digital Innovation Hub</h1>
+            <p>Crafting exceptional web experiences with cutting-edge technology, optimized performance, and seamless user interactions across all devices.</p>
+            <div class="cta-buttons">
+                <a href="#demo" class="btn btn-primary">
+                    🚀 Explore Demo
+                </a>
+                <a href="#features" class="btn btn-secondary">
+                    📋 View Features
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Comprehensive Web Solutions</h2>
+                <p>Modern web development with focus on performance, accessibility, and user experience across all platforms and devices.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card lazy-load">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast Performance</h3>
+                    <p>Optimized code, lazy loading, and efficient resource management ensure blazing-fast load times and smooth user interactions.</p>
+                </div>
+                <div class="feature-card lazy-load">
+                    <div class="feature-icon">📱</div>
+                    <h3>Responsive Design</h3>
+                    <p>Seamless experience across all devices - from mobile phones to desktop computers with adaptive layouts and touch-friendly interfaces.</p>
+                </div>
+                <div class="feature-card lazy-load">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Cross-Browser Compatible</h3>
+                    <p>Tested and optimized for Chrome, Firefox, Safari, and Edge. Consistent functionality and appearance everywhere.</p>
+                </div>
+                <div class="feature-card lazy-load">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Modern UI/UX</h3>
+                    <p>Contemporary design trends with intuitive navigation, smooth animations, and engaging visual elements that captivate users.</p>
+                </div>
+                <div class="feature-card lazy-load">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Interactive Features</h3>
+                    <p>Dynamic content, real-time updates, and interactive components that engage users and provide meaningful experiences.</p>
+                </div>
+                <div class="feature-card lazy-load">
+                    <div class="feature-icon">♿</div>
+                    <h3>Accessibility First</h3>
+                    <p>Built with WCAG guidelines in mind, ensuring the web is accessible to everyone, including users with disabilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Dashboard -->
+    <section class="dashboard" id="performance">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: var(--text-light)">Performance Metrics</h2>
+                <p style="color: #94a3b8">Real-world performance data demonstrating optimization techniques and best practices implementation.</p>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric-card lazy-load">
+                    <span class="metric-number" data-target="95">0</span>
+                    <div class="metric-label">Lighthouse Score</div>
+                </div>
+                <div class="metric-card lazy-load">
+                    <span class="metric-number" data-target="1.2">0</span>
+                    <div class="metric-label">Load Time (s)</div>
+                </div>
+                <div class="metric-card lazy-load">
+                    <span class="metric-number" data-target="99">0</span>
+                    <div class="metric-label">Uptime (%)</div>
+                </div>
+                <div class="metric-card lazy-load">
+                    <span class="metric-number" data-target="100">0</span>
+                    <div class="metric-label">Accessibility Score</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <div class="demo-container">
+                <div class="section-title">
+                    <h2>Interactive Demo</h2>
+                    <p>Experience the dynamic features and responsive interactions that make modern web applications engaging.</p>
+                </div>
+                <div class="interactive-demo">
+                    <div class="demo-controls">
+                        <button class="demo-btn active" data-demo="animation">🎭 Animations</button>
+                        <button class="demo-btn" data-demo="responsive">📱 Responsive</button>
+                        <button class="demo-btn" data-demo="interactive">⚡ Interactive</button>
+                        <button class="demo-btn" data-demo="performance">🚀 Performance</button>
+                    </div>
+                    <div class="demo-output" id="demo-output">
+                        <div>✨ Click the buttons above to see different features in action! This demo showcases smooth animations, responsive design principles, and interactive elements.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#features">Features</a>
+                <a href="#performance">Performance</a>
+                <a href="#demo">Demo</a>
+                <a href="mailto:contact@techcraft.com">Contact</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechCraft Solutions. Built with modern web technologies for optimal performance and accessibility.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Performance and Optimization
+        class WebApp {
+            constructor() {
+                this.init();
+                this.bindEvents();
+                this.initLazyLoading();
+                this.initPerformanceMetrics();
+                this.checkBrowserCompatibility();
+            }
+
+            init() {
+                // Initialize app with performance considerations
+                this.debounce = this.debounce.bind(this);
+                this.throttle = this.throttle.bind(this);
+            }
+
+            bindEvents() {
+                // Optimized event binding with passive listeners
+                window.addEventListener('scroll', this.throttle(this.handleScroll.bind(this), 16), { passive: true });
+                window.addEventListener('resize', this.debounce(this.handleResize.bind(this), 250), { passive: true });
+                
+                // Demo interactions
+                const demoBtns = document.querySelectorAll('.demo-btn');
+                demoBtns.forEach(btn => {
+                    btn.addEventListener('click', this.handleDemoClick.bind(this));
+                });
+
+                // Mobile menu
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu) {
+                    mobileMenu.addEventListener('click', this.toggleMobileMenu.bind(this));
+                }
+
+                // Smooth scrolling for navigation
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', this.smoothScroll.bind(this));
+                });
+            }
+
+            // Performance optimization utilities
+            debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            throttle(func, limit) {
+                let inThrottle;
+                return function() {
+                    const args = arguments;
+                    const context = this;
+                    if (!inThrottle) {
+                        func.apply(context, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                };
+            }
+
+            handleScroll() {
+                // Optimized scroll handling
+                const navbar = document.getElementById('navbar');
+                const scrollY = window.pageYOffset;
+                
+                // Navbar background opacity based on scroll
+                if (scrollY > 100) {
+                    navbar.style.background = 'rgba(15, 23, 42, 0.98)';
+                } else {
+                    navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+                }
+
+                // Lazy loading check
+                this.checkLazyLoad();
+            }
+
+            handleResize() {
+                // Handle responsive adjustments
+                console.log('Window resized - responsive adjustments applied');
+            }
+
+            // Lazy loading implementation
+            initLazyLoading() {
+                this.lazyElements = document.querySelectorAll('.lazy-load');
+                this.checkLazyLoad();
+            }
+
+            checkLazyLoad() {
+                this.lazyElements.forEach((element, index) => {
+                    if (element.classList.contains('loaded')) return;
+
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = elementTop < window.innerHeight - 100;
+
+                    if (elementVisible) {
+                        setTimeout(() => {
+                            element.classList.add('loaded');
+                        }, index * 100); // Stagger animations
+                    }
+                });
+            }
+
+            // Performance metrics animation
+            initPerformanceMetrics() {
+                const observerOptions = {
+                    threshold: 0.5,
+                    rootMargin: '0px 0px -100px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            this.animateMetrics();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                const metricsSection = document.querySelector('.metrics-grid');
+                if (metricsSection) {
+                    observer.observe(metricsSection);
+                }
+            }
+
+            animateMetrics() {
+                const metricNumbers = document.querySelectorAll('.metric-number');
+                metricNumbers.forEach((element) => {
+                    const target = parseInt(element.getAttribute('data-target'));
+                    const increment = target / 50;
+                    let current = 0;
+
+                    const updateNumber = () => {
+                        if (current < target) {
+                            current += increment;
+                            element.textContent = target > 10 ? Math.ceil(current) : current.toFixed(1);
+                            requestAnimationFrame(updateNumber);
+                        } else {
+                            element.textContent = target > 10 ? target : target.toFixed(1);
+                        }
+                    };
+
+                    updateNumber();
+                });
+            }
+
+            // Demo functionality
+            handleDemoClick(e) {
+                const demoType = e.target.getAttribute('data-demo');
+                const output = document.getElementById('demo-output');
+                
+                // Update active state
+                document.querySelectorAll('.demo-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                // Demo content
+                const demoContent = {
+                    animation: {
+                        html: '<div style="animation: slideInUp 0.8s ease-out;">🎭 Smooth CSS animations with hardware acceleration for 60fps performance. Transform and opacity changes trigger GPU rendering.</div>'
+                    },
+                    responsive: {
+                        html: '<div>📱 Responsive design using CSS Grid and Flexbox. <span style="display: block; margin-top: 1rem; font-size: 0.9rem;">Current viewport: <strong>' + window.innerWidth + 'px × ' + window.innerHeight + 'px</strong></span></div>'
+                    },
+                    interactive: {
+                        html: '<div>⚡ Interactive elements with event delegation and optimized DOM manipulation. <button style="margin-top: 1rem; padding: 0.5rem 1rem; border: none; border-radius: 5px; background: var(--primary-color); color: white; cursor: pointer;" onclick="this.style.background=\'var(--accent-color)\'; this.textContent=\'Clicked!\'; setTimeout(() => {this.
